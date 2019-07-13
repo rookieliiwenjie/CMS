@@ -7,16 +7,23 @@ export default [{
     hidden: false,
     children:[{
       path: '/cms/page/list',
-      name:'cmslist',
+      name:'页面列表',
       hidden: false,
       component: page_list
-    }]
+    }
+
+
+    ]
+
     // ,
     // redirect: '/home',
     // children: [
     //   {path: 'home', component: Home}
     // ]
-  }/*,
+  }
+
+
+  /*,
   {
     path: '/login',
     component: Login,
