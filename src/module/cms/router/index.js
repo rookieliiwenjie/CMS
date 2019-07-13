@@ -1,26 +1,37 @@
 import Home from '@/module/home/page/home.vue';
 import page_list from '@/module/cms/page/page_list.vue';
+import page_add from '@/module/cms/page/page_add.vue';
+
 export default [{
-    path: '/',
-    component: Home,
-    name: 'CMS',
+  path: '/',
+  component: Home,
+  name: 'CMS',
+  hidden: false,
+  children: [{
+    path: '/cms/page/list',
+    name: '页面列表',
     hidden: false,
-    children:[{
-      path: '/cms/page/list',
-      name:'页面列表',
+    component: page_list
+
+  }
+    , {
+      path: '/cms/page/add',
+      component: page_add,
+      name: '新加页面',
       hidden: false,
-      component: page_list
+
+
     }
 
 
-    ]
+  ]
 
-    // ,
-    // redirect: '/home',
-    // children: [
-    //   {path: 'home', component: Home}
-    // ]
-  }
+  // ,
+  // redirect: '/home',
+  // children: [
+  //   {path: 'home', component: Home}
+  // ]
+}
 
 
   /*,

@@ -1,7 +1,24 @@
 <template>
+
   <div style="width: 100%">
-    <el-button type="primary" v-on:click="query">查询</el-button>
+    <el-form v-model="param">
+      <el-select v-model="param.siteId" filterable placeholder="请选择">
+        <el-option
+          v-for="item in siteList"
+          :key="item.siteId"
+          :label="item.siteName"
+          :value="item.siteId">
+        </el-option>
+      </el-select>
+      页面别名：
+      <el-input v-model="param.pageAliase" style="width: 50%"></el-input>
+      <el-button type="primary" icon="el-icon-search" v-on:click="query" size="small">查询</el-button>
+      <el-button type="primary" icon="el-icon-plus" v-on:click="open" style="float: right;">添加</el-button>
+
+    </el-form>
+
     <el-table
+
       :data="tableData"
       stripe
       style="width: 100%">
@@ -11,12 +28,13 @@
       <el-table-column prop="pageType" label="页面类型" width="150"></el-table-column>
       <el-table-column prop="pageWebPath" label="访问路径" width="250"></el-table-column>
       <el-table-column prop="pagePhysicalPath" label="物理路径" width="250"></el-table-column>
-      <el-table-column prop="pageCreateTime" label="创建时间" width="180"></el-table-column>
+      <el-table-column prop="pageCreateTime" label="创建时间" format="yyyy-MM-dd" width="180"></el-table-column>
       <el-table-column prop="button" label="按钮">
         <el-button type="danger">危险按钮</el-button>
       </el-table-column>
 
     </el-table>
+
     <el-pagination
 
       background
@@ -42,16 +60,29 @@
     data() {
       return {
         tableData: [],
-        "total": this.total,
-        "param": {
-          "page": 1,//頁碼
-          "size": 10//頁碼size
-        }
+        siteList: [],
+        total: this.total,
+        param: {
+          page: 1,//頁碼
+          size: 10, //頁碼size
+          siteId: '',
+          pageAliase: ''
+
+        },
+        dialogVisible: false
       }
     },
     methods: {
+      open:function(){
+
+      },
+      cmsSite: function () {
+        cmsapi.site_list().then((result) => {
+          this.siteList = result.queryResult.list;
+        })
+      },
       query: function () {
-        cmsapi.page_list(this.param.page, this.param.size, this.param).then((res) => {
+        cmsapi.page_list(this.param).then((res) => {
           //將res賦值給數據模型對象
 
           this.tableData = res.queryResult.list;
@@ -70,8 +101,10 @@
       //当dom元素渲染完毕调用query方法钩子
 
     },
-    mounted(){
+    mounted() {
       this.query();
+      this.cmsSite();
+      //this.loading.close();
     }
   }
 </script>
