@@ -18,7 +18,7 @@ export default [{
       path: '/cms/page/add',
       component: page_add,
       name: '新加页面',
-      hidden: false,
+      hidden: true,
 
 
     }
